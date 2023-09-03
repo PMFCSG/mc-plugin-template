@@ -1,0 +1,32 @@
+# When trying to run tests without any custom property, we are getting the following error:
+#
+#   Cannot invoke "org.hibernate.boot.spi.MetadataImplementor.getEntityBindings()" because
+#   "this.metadata" is null
+#
+# This means that the issue can be located on Hibernate side or on Spring Data JPA one.
+# The consequences are that things are not working out-of-the-box when relying on an H2 database,
+# hence these custom properties.
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    # By default, H2 is disk-based in a pretty similar way than SQLite. However, for testing
+    # purposes (e.g. performances and portability of tests) we prefer to rely on an embedded and
+    # in-memory mode. This is possible with H2, hence its use here but with some specificities:
+    #
+    # 1) "jdbc:h2:mem" is required for launching an embedded in-memory H2 database
+    # 2) The explicit database name "testdb" forces multiple connections to target a same database
+    #   (by default a new database is created per new connection, meaning opening multiple
+    #   connections at once during tests can lead to unexpected and weird outcomes)
+    # 3) "DB_CLOSE_ON_EXIT=FALSE" is recommended for testing purposes, otherwise the last connection
+    #   to a database closes the database (which may not be wanted).
+    #
+    # ==> Details can be found in H2 documentation: https://www.h2database.com/html/main.html
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    fr.djaytan.mc.template.core: DEBUG
