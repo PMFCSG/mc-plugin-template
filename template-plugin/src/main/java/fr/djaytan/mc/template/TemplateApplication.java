@@ -20,9 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import java.util.Collection;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.lang.NonNull;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+@SpringBootApplication()
+public class TemplateApplication {
+
+  @Bean
+  @NonNull
+  ApplicationRunner autoRegisterListeners(
+      @NonNull JavaPlugin plugin,
+      @NonNull PluginManager pluginManager,
+      @NonNull Collection<Listener> bukkitListeners) {
+    return args ->
+        bukkitListeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
+  }
+}

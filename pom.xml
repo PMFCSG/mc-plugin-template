@@ -44,16 +44,27 @@
         <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+        <rootpom.basedir>${project.basedir}</rootpom.basedir>
 
         <!-- ==================== Sonar ==================== -->
         <!-- sonar.projectKey must be defined through CLI only -->
         <sonar.organization>djaytan</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/**/target/site/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+		<!-- ==================== Dependencies ==================== -->
+		<spring-boot.version>3.1.3</spring-boot.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Internal dependencies -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>template-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Third-party dependencies -->
             <!-- TODO: add beans validation -->
             <dependency>
@@ -66,7 +77,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.1.3</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -91,6 +102,11 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>2.0.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.13.0</version>
             </dependency>
 
             <!-- Minecraft specific dependencies -->
@@ -128,6 +144,7 @@
     </dependencyManagement>
 
     <build>
+        <defaultGoal>clean verify</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
@@ -172,6 +189,11 @@
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.5.0</version>
+			</plugin>
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
@@ -292,6 +314,7 @@
                         </requirePluginVersions>
                         <requireUpperBoundDeps />
                     </rules>
+                    <skip>${enforcer.skip}</skip>
                 </configuration>
             </plugin>
             <plugin>
@@ -319,6 +342,7 @@
 						-->
                         <additionalJOption>-Xdoclint:all,-html,-missing</additionalJOption>
                     </additionalJOptions>
+                    <skip>${javadoc.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -357,6 +381,9 @@
                             <goal>jar-no-fork</goal>
                         </goals>
                         <phase>verify</phase>
+                        <configuration>
+                            <skipSource>${attachSources.skip}</skipSource>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -365,9 +392,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <systemPropertyVariables>
-                        <spring.main.banner-mode>off</spring.main.banner-mode>
-                    </systemPropertyVariables>
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                 </configuration>
             </plugin>
@@ -375,6 +399,9 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -399,6 +426,8 @@
                 <configuration>
                     <failBuildOnCVSS>4</failBuildOnCVSS>
                     <failOnError>true</failOnError>
+                    <skipProvidedScope>true</skipProvidedScope>
+                    <skip>${dependencyCheck.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -455,6 +484,12 @@
                 <license.skipCheck>true</license.skipCheck>
                 <sortpom.skipSort>false</sortpom.skipSort>
                 <sortpom.skipCheck>true</sortpom.skipCheck>
+                <skipTests>false</skipTests>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
+                <attachSources.skip>false</attachSources.skip>
+                <javadoc.skip>false</javadoc.skip>
+                <enforcer.skip>false</enforcer.skip>
+				<docker.skip>true</docker.skip>
             </properties>
         </profile>
         <profile>
@@ -466,7 +501,36 @@
                 <license.skipCheck>false</license.skipCheck>
                 <sortpom.skipSort>true</sortpom.skipSort>
                 <sortpom.skipCheck>false</sortpom.skipCheck>
+                <skipTests>false</skipTests>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
+                <attachSources.skip>false</attachSources.skip>
+                <javadoc.skip>false</javadoc.skip>
+                <enforcer.skip>false</enforcer.skip>
+				<docker.skip>true</docker.skip>
             </properties>
         </profile>
+        <profile>
+            <id>fast</id>
+            <properties>
+                <fmt.skipFormat>true</fmt.skipFormat>
+                <fmt.skipCheck>true</fmt.skipCheck>
+                <license.skipFormat>true</license.skipFormat>
+                <license.skipCheck>true</license.skipCheck>
+                <sortpom.skipSort>true</sortpom.skipSort>
+                <sortpom.skipCheck>true</sortpom.skipCheck>
+                <skipTests>true</skipTests>
+                <dependencyCheck.skip>true</dependencyCheck.skip>
+                <attachSources.skip>true</attachSources.skip>
+                <javadoc.skip>true</javadoc.skip>
+                <enforcer.skip>true</enforcer.skip>
+				<docker.skip>true</docker.skip>
+            </properties>
+        </profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<docker.skip>false</docker.skip>
+			</properties>
+		</profile>
     </profiles>
 </project>

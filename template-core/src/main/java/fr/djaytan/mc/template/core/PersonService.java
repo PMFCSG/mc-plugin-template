@@ -33,8 +33,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonService {
 
-	// TODO: fix keyValue logging (nothing shown by default in console output)
-
   private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
 
   private final PersonRepository personRepository;
@@ -58,15 +56,9 @@ public class PersonService {
   }
 
   private @NonNull Person register(@NonNull PersonEntity personEntity) {
-    LOG.atDebug()
-        .setMessage("The person is not registered yet, registering him...")
-        .addKeyValue("personEntity", personEntity)
-        .log();
+    LOG.debug("The person is not registered yet, registering him: {}", personEntity);
     PersonEntity registeredPersonEntity = personRepository.save(personEntity);
-    LOG.atDebug()
-        .setMessage("Registered person")
-        .addKeyValue("registeredPersonEntity", registeredPersonEntity)
-        .log();
+    LOG.debug("Registered person: {}", registeredPersonEntity);
 
     Person person = PersonMapper.fromEntity(registeredPersonEntity);
     LOG.atInfo().setMessage("Registered person: {}").addArgument(person::whoamiShortly).log();
@@ -74,15 +66,11 @@ public class PersonService {
   }
 
   private @NonNull Person update(@NonNull PersonEntity personEntity) {
-    LOG.atDebug()
-        .setMessage("The person is already registered, updating his information...")
-        .addKeyValue("personEntity", personEntity)
-        .log();
+    LOG.debug(
+        "The person is already registered, updating his information with the following ones: {}",
+        personEntity);
     PersonEntity updatedPersonEntity = personRepository.save(personEntity);
-    LOG.atDebug()
-        .setMessage("Updated person")
-        .addKeyValue("updatedPersonEntity", updatedPersonEntity)
-        .log();
+    LOG.debug("Updated person: {}", updatedPersonEntity);
 
     Person person = PersonMapper.fromEntity(updatedPersonEntity);
     LOG.atInfo().setMessage("Updated person: {}").addArgument(person::whoamiShortly).log();
@@ -92,7 +80,7 @@ public class PersonService {
   public void unregisterPerson(@NonNull UUID id) {
     Optional<Person> personToRemove = findPerson(id);
     if (personToRemove.isEmpty()) {
-      LOG.atInfo().log("Trying to delete a non-registered person with ID '{}'", id);
+      LOG.info("Trying to delete a non-registered person with ID '{}'", id);
       return;
     }
     personRepository.deleteById(id);

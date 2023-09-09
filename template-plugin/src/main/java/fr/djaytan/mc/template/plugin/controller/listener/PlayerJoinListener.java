@@ -20,9 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.plugin.controller.listener;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import fr.djaytan.mc.template.plugin.controller.PersonController;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+@Component
+public class PlayerJoinListener implements Listener {
+
+  private final PersonController personController;
+
+  @Autowired
+  PlayerJoinListener(@NonNull PersonController personController) {
+    this.personController = personController;
+  }
+
+  @EventHandler
+  void onPlayerJoin(@NonNull PlayerJoinEvent event) {
+    personController.generatePersonFrom(event.getPlayer());
+  }
+}

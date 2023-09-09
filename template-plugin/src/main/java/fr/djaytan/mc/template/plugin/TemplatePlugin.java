@@ -20,9 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.plugin;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import fr.djaytan.mc.template.TemplateApplication;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.springframework.boot.Banner.Mode;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+@SuppressWarnings("unused") // Instantiated by the PaperMC server
+public class TemplatePlugin extends JavaPlugin {
+
+  private ConfigurableApplicationContext applicationContext;
+
+  @Override
+  public void onEnable() {
+    applicationContext =
+        new SpringApplicationBuilder(TemplateApplication.class)
+            .bannerMode(Mode.OFF)
+            .initializers(appContext -> appContext.setClassLoader(getClassLoader()))
+            .build()
+            .run();
+  }
+
+  @Override
+  public void onDisable() {
+    if (applicationContext != null) {
+      applicationContext.close();
+    }
+  }
+}

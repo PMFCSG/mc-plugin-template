@@ -20,9 +20,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.config;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import fr.djaytan.mc.template.plugin.TemplatePlugin;
+import java.util.Collection;
+import org.bukkit.Server;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+@Configuration
+public class PaperConfig {
+
+  @Bean
+  @NonNull
+  JavaPlugin plugin() {
+    return JavaPlugin.getPlugin(TemplatePlugin.class);
+  }
+
+  @Bean
+  @NonNull
+  Server server(@NonNull JavaPlugin plugin) {
+    return plugin.getServer();
+  }
+
+  @Bean
+  @NonNull
+  PluginManager pluginManager(@NonNull Server server) {
+    return server.getPluginManager();
+  }
+
+  @Bean
+  @NonNull
+  Collection<Listener> bukkitListeners(@NonNull ApplicationContext applicationContext) {
+    return applicationContext.getBeansOfType(Listener.class).values();
+  }
+}

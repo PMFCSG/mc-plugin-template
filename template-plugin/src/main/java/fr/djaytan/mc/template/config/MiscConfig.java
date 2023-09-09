@@ -20,9 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.config;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import java.util.Random;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+@Configuration
+public class MiscConfig {
+
+  @Bean
+  @NonNull
+  Random random() {
+    return new Random();
+  }
+}

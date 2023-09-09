@@ -20,9 +20,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
-
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
-
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+/**
+ * All Spring {@link org.springframework.context.annotation.Bean}s definitions should belong in this
+ * package.
+ */
+package fr.djaytan.mc.template.config;

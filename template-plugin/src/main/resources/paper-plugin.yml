@@ -1,0 +1,7 @@
+# PaperMC plugin declaration file: https://docs.papermc.io/paper/dev/getting-started/paper-plugins
+name: ${plugin.name}
+version: '${project.version}'
+main: ${package.root}.plugin.TemplatePlugin
+description: A template plugin with Spring for demonstration purpose
+api-version: '1.20'
+author: Djaytan

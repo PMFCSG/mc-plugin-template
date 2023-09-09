@@ -28,15 +28,4 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
         hibernate:
-            generate_statistics: true
             show_sql: false
-
-logging:
-    level:
-        fr.djaytan.mc.template.core: DEBUG
-        org:
-            hibernate:
-                cache: DEBUG
-                orm.jdbc.bind: TRACE
-                SQL: DEBUG
-                stat: DEBUG

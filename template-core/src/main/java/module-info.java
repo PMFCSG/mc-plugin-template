@@ -20,13 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+// TODO: replace it by generated one by Moditect Maven plugin
 module template.core {
   requires spring.core;
   requires spring.beans;
   requires spring.context;
-  requires spring.data.commons;
+	requires spring.boot.autoconfigure;
+	requires spring.data.commons;
+	requires spring.data.jpa;
   requires jakarta.persistence;
   requires org.slf4j;
+
+  exports fr.djaytan.mc.template.core;
 
   opens fr.djaytan.mc.template.core to
       spring.core;

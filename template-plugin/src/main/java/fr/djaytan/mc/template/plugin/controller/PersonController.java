@@ -20,31 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.plugin.controller;
 
-import java.util.UUID;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+
+import fr.djaytan.mc.template.core.Person;
+import fr.djaytan.mc.template.core.PersonService;
+import java.util.Random;
+import org.bukkit.entity.Player;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Controller;
 
-public record Person(
-    @Nullable UUID id,
-    @NonNull String firstName,
-    @NonNull String lastName,
-    int age,
-    @NonNull String address) {
+@Controller
+public class PersonController {
 
-  public Person(
-      @NonNull String firstName, @NonNull String lastName, int age, @NonNull String address) {
-    this(null, firstName, lastName, age, address);
+  private final PersonService personService;
+  private final Random random;
+
+  @Autowired
+  PersonController(@NonNull PersonService personService, @NonNull Random random) {
+    this.personService = personService;
+    this.random = random;
   }
 
-  public @NonNull String whoami() {
-    return String.format(
-        "I am %s %s (ID: %s), %d years old and living at %s",
-        firstName, lastName, id, age, address);
-  }
-
-  public @NonNull String whoamiShortly() {
-    return String.format("%s %s (ID: %s)", firstName, lastName, id);
+  public void generatePersonFrom(@NonNull Player player) {
+    String firstName = randomAlphabetic(3, 12);
+    String lastName = randomAlphabetic(3, 12);
+    int age = random.nextInt(5, 120);
+    String address = randomAlphabetic(8, 30);
+    Person person = personService.registerOrUpdate(new Person(firstName, lastName, age, address));
+    player.sendMessage(
+        String.format(
+            "You have been registered into the database with the following identity: %s",
+            person.whoami()));
   }
 }
