@@ -20,38 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module template.core {
-  // Spring Boot
-  requires transitive spring.core;
-  requires transitive spring.beans;
-  requires transitive spring.context;
-  requires transitive spring.boot;
-  requires transitive spring.boot.autoconfigure;
+package fr.djaytan.mc.template.core.person.view;
 
-  // Spring Data
-  requires spring.data.commons;
-  requires spring.data.jpa;
-  requires jakarta.persistence;
+import java.util.UUID;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.springframework.lang.NonNull;
 
-  opens fr.djaytan.mc.template.core.person.model to
-      spring.core; // Required deep reflection for PersonEntity class
+public final class PersonView {
 
-  // Commands
-  requires info.picocli;
-  requires picocli.spring.boot.starter;
+  private PersonView() {
+    // Static class
+  }
 
-  // Minecraft - Adventure API
-  requires net.kyori.adventure;
-  requires net.kyori.examination.api;
+  public static @NonNull Component invalidUuidErrorMessage(@NonNull String strPersonUuid) {
+    // TODO: use of ResourceBundles
+    return Component.text(
+            String.format("Error: The specified UUID is not a valid one ('%s')", strPersonUuid))
+        .color(TextColor.color(0xFF5555));
+  }
 
-  // Commons
-  requires org.slf4j;
-  requires org.apache.commons.lang3;
+  public static @NonNull Component noPersonFoundErrorMessage(@NonNull UUID personUuid) {
+    return Component.text(String.format("No person found for the provided UUID '%s'", personUuid))
+        .color(TextColor.color(0xFF5555));
+  }
 
-  exports fr.djaytan.mc.template to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.commons to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.person.controller to
-      template.plugin;
+  public static @NonNull Component whoisheMessage(@NonNull String whoishe) {
+    return Component.text(String.format("Who is he: %s", whoishe)).color(TextColor.color(0xFFFF55));
+  }
 }

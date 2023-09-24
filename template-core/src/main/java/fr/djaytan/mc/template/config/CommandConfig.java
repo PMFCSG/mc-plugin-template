@@ -20,38 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module template.core {
-  // Spring Boot
-  requires transitive spring.core;
-  requires transitive spring.beans;
-  requires transitive spring.context;
-  requires transitive spring.boot;
-  requires transitive spring.boot.autoconfigure;
+package fr.djaytan.mc.template.config;
 
-  // Spring Data
-  requires spring.data.commons;
-  requires spring.data.jpa;
-  requires jakarta.persistence;
+import fr.djaytan.mc.template.core.commons.MinecraftCommand;
+import java.util.Collection;
+import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import picocli.CommandLine.Command;
 
-  opens fr.djaytan.mc.template.core.person.model to
-      spring.core; // Required deep reflection for PersonEntity class
+public class CommandConfig {
 
-  // Commands
-  requires info.picocli;
-  requires picocli.spring.boot.starter;
+  private static final Logger LOG = LoggerFactory.getLogger(CommandConfig.class);
 
-  // Minecraft - Adventure API
-  requires net.kyori.adventure;
-  requires net.kyori.examination.api;
+  @Bean
+  Collection<MinecraftCommand> minecraftCommands(ApplicationContext applicationContext) {
+    Collection<Object> commands = applicationContext.getBeansWithAnnotation(Command.class).values();
 
-  // Commons
-  requires org.slf4j;
-  requires org.apache.commons.lang3;
+    Class<?> baseClass = MinecraftCommand.class;
+    commands.forEach(
+        command ->
+            Validate.validState(
+                command.getClass().getSuperclass() == baseClass,
+                "Any registered Picocli command must extend the %s class",
+                baseClass.getName()));
 
-  exports fr.djaytan.mc.template to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.commons to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.person.controller to
-      template.plugin;
+    LOG.info("{} classes representing commands and sub-commands found", commands.size());
+    return commands.stream().map(MinecraftCommand.class::cast).toList();
+  }
 }

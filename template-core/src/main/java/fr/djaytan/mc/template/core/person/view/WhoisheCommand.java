@@ -20,38 +20,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module template.core {
-  // Spring Boot
-  requires transitive spring.core;
-  requires transitive spring.beans;
-  requires transitive spring.context;
-  requires transitive spring.boot;
-  requires transitive spring.boot.autoconfigure;
+package fr.djaytan.mc.template.core.person.view;
 
-  // Spring Data
-  requires spring.data.commons;
-  requires spring.data.jpa;
-  requires jakarta.persistence;
+import fr.djaytan.mc.template.core.commons.MinecraftCommand;
+import fr.djaytan.mc.template.core.person.controller.PersonController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
-  opens fr.djaytan.mc.template.core.person.model to
-      spring.core; // Required deep reflection for PersonEntity class
+@Component
+@Command(name = "whoishe", description = "Who is he?")
+public final class WhoisheCommand extends MinecraftCommand implements Runnable {
 
-  // Commands
-  requires info.picocli;
-  requires picocli.spring.boot.starter;
+  @Option(
+      names = {"-s", "--short"},
+      description = "display the short presentation")
+  private boolean shortPresentation = false;
 
-  // Minecraft - Adventure API
-  requires net.kyori.adventure;
-  requires net.kyori.examination.api;
+  @Parameters(paramLabel = "person_uuid", description = "the UUID of the person to be presented")
+  private String strPersonUuid;
 
-  // Commons
-  requires org.slf4j;
-  requires org.apache.commons.lang3;
+  private final PersonController personController;
 
-  exports fr.djaytan.mc.template to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.commons to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.person.controller to
-      template.plugin;
+  @Autowired
+  WhoisheCommand(@NonNull PersonController personController) {
+    this.personController = personController;
+  }
+
+  @Override
+  public void run() {
+    personController.whoishe(strPersonUuid, shortPresentation, getAudience());
+  }
 }

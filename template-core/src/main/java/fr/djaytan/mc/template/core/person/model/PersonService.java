@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.core.person.model;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +31,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonService {
+public final class PersonService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
 

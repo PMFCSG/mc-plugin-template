@@ -20,9 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.plugin;
 
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
+import fr.djaytan.mc.template.core.commons.CommandHandler;
+import fr.djaytan.mc.template.core.commons.MinecraftCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.springframework.lang.NonNull;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+public final class DelegatedCommand extends Command {
+
+  private final MinecraftCommand minecraftCommand;
+
+  public DelegatedCommand(@NonNull MinecraftCommand minecraftCommand) {
+    super(minecraftCommand.getName());
+    this.minecraftCommand = minecraftCommand;
+  }
+
+  @Override
+  public boolean execute(
+      @NonNull CommandSender sender, @NonNull String commandLabel, @NonNull String[] args) {
+    CommandHandler.handle(minecraftCommand, args, sender);
+    return true; // Shall always be 'true' when delegating command management
+  }
+}

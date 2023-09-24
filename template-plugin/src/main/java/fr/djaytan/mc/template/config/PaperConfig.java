@@ -22,9 +22,12 @@
  */
 package fr.djaytan.mc.template.config;
 
+import fr.djaytan.mc.template.core.commons.MinecraftCommand;
+import fr.djaytan.mc.template.plugin.DelegatedCommand;
 import fr.djaytan.mc.template.plugin.TemplatePlugin;
 import java.util.Collection;
 import org.bukkit.Server;
+import org.bukkit.command.CommandMap;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,10 +59,24 @@ public class PaperConfig {
   }
 
   @Bean
+  CommandMap commandMap(Server server) {
+    return server.getCommandMap();
+  }
+
+  @Bean
   ApplicationRunner autoRegisterListeners(
       ApplicationContext applicationContext, JavaPlugin plugin, PluginManager pluginManager) {
     Collection<Listener> listeners = applicationContext.getBeansOfType(Listener.class).values();
     LOG.info("{} classes listening events found", listeners.size());
     return args -> listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
+  }
+
+  @Bean
+  ApplicationRunner autoRegisterCommands(
+      Collection<MinecraftCommand> minecraftCommands, JavaPlugin plugin, CommandMap commandMap) {
+    return args ->
+        minecraftCommands.stream()
+            .map(DelegatedCommand::new)
+            .forEach(delegatedCommand -> commandMap.register(plugin.getName(), delegatedCommand));
   }
 }

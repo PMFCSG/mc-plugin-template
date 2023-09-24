@@ -20,38 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module template.core {
-  // Spring Boot
-  requires transitive spring.core;
-  requires transitive spring.beans;
-  requires transitive spring.context;
-  requires transitive spring.boot;
-  requires transitive spring.boot.autoconfigure;
+package fr.djaytan.mc.template.core.commons;
 
-  // Spring Data
-  requires spring.data.commons;
-  requires spring.data.jpa;
-  requires jakarta.persistence;
+import net.kyori.adventure.audience.Audience;
+import org.springframework.lang.NonNull;
+import picocli.CommandLine;
 
-  opens fr.djaytan.mc.template.core.person.model to
-      spring.core; // Required deep reflection for PersonEntity class
+public final class CommandHandler {
 
-  // Commands
-  requires info.picocli;
-  requires picocli.spring.boot.starter;
+  private CommandHandler() {
+    // Static class
+  }
 
-  // Minecraft - Adventure API
-  requires net.kyori.adventure;
-  requires net.kyori.examination.api;
-
-  // Commons
-  requires org.slf4j;
-  requires org.apache.commons.lang3;
-
-  exports fr.djaytan.mc.template to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.commons to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.person.controller to
-      template.plugin;
+  public static void handle(
+      @NonNull MinecraftCommand minecraftCommand,
+      @NonNull String[] args,
+      @NonNull Audience audience) {
+    CommandLine commandLine = new CommandLine(minecraftCommand);
+    commandLine.<MinecraftCommand>getCommand().setAudience(audience);
+    commandLine.execute(args);
+  }
 }

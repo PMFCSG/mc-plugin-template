@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.core.person.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

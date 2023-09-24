@@ -22,7 +22,7 @@
  */
 package fr.djaytan.mc.template.plugin;
 
-import fr.djaytan.mc.template.core.PersonController;
+import fr.djaytan.mc.template.core.person.controller.PersonController;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

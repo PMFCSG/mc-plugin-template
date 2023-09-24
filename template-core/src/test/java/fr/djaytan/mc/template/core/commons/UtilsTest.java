@@ -20,27 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.core.commons;
 
-import org.springframework.lang.NonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-final class PersonMapper {
+import org.junit.jupiter.api.Test;
 
-  private PersonMapper() {
-    // Static class
+class UtilsTest {
+
+  @Test
+  void whenParsingValidUuid_thenShallReturnPresentValue() {
+    assertThat(Utils.parseUuid("2340abb6-236b-468d-b239-49542ea39169")).isPresent();
   }
 
-  static @NonNull PersonEntity toEntity(@NonNull Person person) {
-    return new PersonEntity(
-        person.id(), person.firstName(), person.lastName(), person.age(), person.address());
-  }
-
-  static @NonNull Person fromEntity(@NonNull PersonEntity personEntity) {
-    return new Person(
-        personEntity.getId(),
-        personEntity.getFirstName(),
-        personEntity.getLastName(),
-        personEntity.getAge(),
-        personEntity.getAddress());
+  @Test
+  void whenParsingInvalidUuid_thenShallReturnEmptyValue() {
+    assertThat(Utils.parseUuid("invalid-uuid")).isEmpty();
   }
 }

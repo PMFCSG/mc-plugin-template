@@ -20,31 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.core.person.model;
 
-import java.util.UUID;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
-public record Person(
-    @Nullable UUID id,
-    @NonNull String firstName,
-    @NonNull String lastName,
-    int age,
-    @NonNull String address) {
+final class PersonMapper {
 
-  public Person(
-      @NonNull String firstName, @NonNull String lastName, int age, @NonNull String address) {
-    this(null, firstName, lastName, age, address);
+  private PersonMapper() {
+    // Static class
   }
 
-  public @NonNull String whoami() {
-    return String.format(
-        "I am %s %s (ID: %s), %d years old and living at %s",
-        firstName, lastName, id, age, address);
+  static @NonNull PersonEntity toEntity(@NonNull Person person) {
+    return new PersonEntity(
+        person.id(), person.firstName(), person.lastName(), person.age(), person.address());
   }
 
-  public @NonNull String whoamiShortly() {
-    return String.format("%s %s (ID: %s)", firstName, lastName, id);
+  static @NonNull Person fromEntity(@NonNull PersonEntity personEntity) {
+    return new Person(
+        personEntity.getId(),
+        personEntity.getFirstName(),
+        personEntity.getLastName(),
+        personEntity.getAge(),
+        personEntity.getAddress());
   }
 }

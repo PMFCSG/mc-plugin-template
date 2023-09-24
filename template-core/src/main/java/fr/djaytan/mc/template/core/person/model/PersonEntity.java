@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.core;
+package fr.djaytan.mc.template.core.person.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 @Entity
-class PersonEntity {
+final class PersonEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
