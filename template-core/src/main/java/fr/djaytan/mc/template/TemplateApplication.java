@@ -20,8 +20,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/**
- * All Spring {@link org.springframework.context.annotation.Bean}s definitions should belong in this
- * package.
- */
-package fr.djaytan.mc.template.config;
+package fr.djaytan.mc.template;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TemplateApplication {}

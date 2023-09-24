@@ -20,27 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template;
+package fr.djaytan.mc.template.core;
 
-import java.util.Collection;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+
+import java.util.Random;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Controller;
 
-@SpringBootApplication()
-public class TemplateApplication {
+@Controller
+public class PersonController {
 
-  @Bean
-  @NonNull
-  ApplicationRunner autoRegisterListeners(
-      @NonNull JavaPlugin plugin,
-      @NonNull PluginManager pluginManager,
-      @NonNull Collection<Listener> bukkitListeners) {
-    return args ->
-        bukkitListeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
+  private final PersonService personService;
+  private final Random random;
+
+  @Autowired
+  PersonController(@NonNull PersonService personService, @NonNull Random random) {
+    this.personService = personService;
+    this.random = random;
+  }
+
+  public void generatePerson(@NonNull Audience audience) {
+    String firstName = randomAlphabetic(3, 12);
+    String lastName = randomAlphabetic(3, 12);
+    int age = random.nextInt(5, 120);
+    String address = randomAlphabetic(8, 30);
+    Person person = personService.registerOrUpdate(new Person(firstName, lastName, age, address));
+    audience.sendMessage(
+        Component.text(
+            String.format(
+                "You have been registered into the database with the following identity: %s",
+                person.whoami())));
   }
 }

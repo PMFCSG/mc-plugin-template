@@ -20,28 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.plugin.controller.listener;
+module template.core {
+  // Spring Boot
+  requires transitive spring.core;
+  requires transitive spring.beans;
+  requires transitive spring.context;
+  requires transitive spring.boot;
+  requires transitive spring.boot.autoconfigure;
 
-import fr.djaytan.mc.template.plugin.controller.PersonController;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
+  // Spring Data
+  requires spring.data.commons;
+  requires spring.data.jpa;
+  requires jakarta.persistence;
 
-@Component
-public class PlayerJoinListener implements Listener {
+  opens fr.djaytan.mc.template.core to
+      spring.core; // Required deep reflection for PersonEntity class
 
-  private final PersonController personController;
+  // Minecraft - Adventure API
+  requires net.kyori.adventure;
+  requires net.kyori.examination.api;
 
-  @Autowired
-  PlayerJoinListener(@NonNull PersonController personController) {
-    this.personController = personController;
-  }
+  // Commons
+  requires org.slf4j;
+  requires org.apache.commons.lang3;
 
-  @EventHandler
-  void onPlayerJoin(@NonNull PlayerJoinEvent event) {
-    personController.generatePersonFrom(event.getPlayer());
-  }
+  exports fr.djaytan.mc.template to
+      template.plugin;
+  exports fr.djaytan.mc.template.core to
+      template.plugin;
 }

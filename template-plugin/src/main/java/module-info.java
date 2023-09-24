@@ -20,23 +20,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.config;
-
-import java.util.Random;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-/**
- * Library auto-registration.
- *
- * <p>Any class annotated with {@link Configuration} under {@link fr.djaytan.mc.template.config}
- * package will be automatically scanned by the plugin.
- */
-@Configuration
-public class TemplateCoreConfig {
-
-  @Bean
-  Random random() {
-    return new Random();
-  }
+module template.plugin {
+  requires template.core;
+  requires org.bukkit;
+  requires org.slf4j;
 }

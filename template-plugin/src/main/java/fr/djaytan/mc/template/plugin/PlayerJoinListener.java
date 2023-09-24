@@ -20,19 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package fr.djaytan.mc.template.config;
+package fr.djaytan.mc.template.plugin;
 
-import java.util.Random;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import fr.djaytan.mc.template.core.PersonController;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
-@Configuration
-public class MiscConfig {
+@Component
+public class PlayerJoinListener implements Listener {
 
-  @Bean
-  @NonNull
-  Random random() {
-    return new Random();
+  private final PersonController personController;
+
+  @Autowired
+  PlayerJoinListener(@NonNull PersonController personController) {
+    this.personController = personController;
+  }
+
+  @EventHandler
+  void onPlayerJoin(@NonNull PlayerJoinEvent event) {
+    personController.generatePerson(event.getPlayer());
   }
 }

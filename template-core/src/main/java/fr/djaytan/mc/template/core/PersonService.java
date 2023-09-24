@@ -48,7 +48,9 @@ public class PersonService {
 
   public @NonNull Person registerOrUpdate(@NonNull Person person) {
     PersonEntity personEntity = PersonMapper.toEntity(person);
-    if (person.id() != null && personRepository.existsById(person.id())) {
+    UUID personId = person.id();
+
+    if (personId != null && personRepository.existsById(personId)) {
       return update(personEntity);
     } else {
       return register(personEntity);

@@ -20,23 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/**
+ * All Spring {@link org.springframework.context.annotation.Bean}s definitions should belong in this
+ * package.
+ */
+@NonNullApi
 package fr.djaytan.mc.template.config;
 
-import java.util.Random;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-/**
- * Library auto-registration.
- *
- * <p>Any class annotated with {@link Configuration} under {@link fr.djaytan.mc.template.config}
- * package will be automatically scanned by the plugin.
- */
-@Configuration
-public class TemplateCoreConfig {
-
-  @Bean
-  Random random() {
-    return new Random();
-  }
-}
+import org.springframework.lang.NonNullApi;

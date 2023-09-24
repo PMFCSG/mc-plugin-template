@@ -28,35 +28,38 @@ import org.bukkit.Server;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNull;
 
 @Configuration
 public class PaperConfig {
 
+  private static final Logger LOG = LoggerFactory.getLogger(PaperConfig.class);
+
   @Bean
-  @NonNull
   JavaPlugin plugin() {
     return JavaPlugin.getPlugin(TemplatePlugin.class);
   }
 
   @Bean
-  @NonNull
-  Server server(@NonNull JavaPlugin plugin) {
+  Server server(JavaPlugin plugin) {
     return plugin.getServer();
   }
 
   @Bean
-  @NonNull
-  PluginManager pluginManager(@NonNull Server server) {
+  PluginManager pluginManager(Server server) {
     return server.getPluginManager();
   }
 
   @Bean
-  @NonNull
-  Collection<Listener> bukkitListeners(@NonNull ApplicationContext applicationContext) {
-    return applicationContext.getBeansOfType(Listener.class).values();
+  ApplicationRunner autoRegisterListeners(
+      ApplicationContext applicationContext, JavaPlugin plugin, PluginManager pluginManager) {
+    Collection<Listener> listeners = applicationContext.getBeansOfType(Listener.class).values();
+    LOG.info("{} classes listening events found", listeners.size());
+    return args -> listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
   }
 }
