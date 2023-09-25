@@ -22,49 +22,75 @@
  */
 package fr.djaytan.mc.template.config;
 
+import fr.djaytan.mc.template.core.commons.EntireAudienceAggregator;
 import fr.djaytan.mc.template.core.commons.MinecraftCommand;
 import fr.djaytan.mc.template.plugin.DelegatedCommand;
 import fr.djaytan.mc.template.plugin.TemplatePlugin;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.Server;
 import org.bukkit.command.CommandMap;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class PaperConfig {
+class PaperConfig {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaperConfig.class);
 
+  PaperConfig() {
+    // Static class but required to be instantiated by Spring
+  }
+
   @Bean
-  JavaPlugin plugin() {
+  static JavaPlugin plugin() {
     return JavaPlugin.getPlugin(TemplatePlugin.class);
   }
 
   @Bean
-  Server server(JavaPlugin plugin) {
+  static Server server(JavaPlugin plugin) {
     return plugin.getServer();
   }
 
   @Bean
-  PluginManager pluginManager(Server server) {
+  static PluginManager pluginManager(Server server) {
     return server.getPluginManager();
   }
 
   @Bean
-  CommandMap commandMap(Server server) {
+  static BukkitScheduler bukkitScheduler(Server server) {
+    return server.getScheduler();
+  }
+
+  @Bean
+  static CommandMap commandMap(Server server) {
     return server.getCommandMap();
   }
 
   @Bean
-  ApplicationRunner autoRegisterListeners(
+  static Executor mainThreadExecutor(BukkitScheduler bukkitScheduler, JavaPlugin plugin) {
+    return bukkitScheduler.getMainThreadExecutor(plugin);
+  }
+
+  @Bean
+  @Primary
+  static ClassLoader pluginClassLoader(JavaPlugin plugin) {
+    return plugin.getClass().getClassLoader();
+  }
+
+  @Bean
+  static ApplicationRunner autoRegisterListeners(
       ApplicationContext applicationContext, JavaPlugin plugin, PluginManager pluginManager) {
     Collection<Listener> listeners = applicationContext.getBeansOfType(Listener.class).values();
     LOG.info("{} classes listening events found", listeners.size());
@@ -72,11 +98,21 @@ public class PaperConfig {
   }
 
   @Bean
-  ApplicationRunner autoRegisterCommands(
+  static ApplicationRunner autoRegisterCommands(
       Collection<MinecraftCommand> minecraftCommands, JavaPlugin plugin, CommandMap commandMap) {
     return args ->
         minecraftCommands.stream()
             .map(DelegatedCommand::new)
             .forEach(delegatedCommand -> commandMap.register(plugin.getName(), delegatedCommand));
+  }
+
+  /** Thread-safe */
+  @Bean
+  static EntireAudienceAggregator entireAudienceAggregator(
+      Server server, Executor mainThreadExecutor) {
+    return () ->
+        CompletableFuture.supplyAsync(
+                () -> Audience.audience(server.getOnlinePlayers()), mainThreadExecutor)
+            .join();
   }
 }

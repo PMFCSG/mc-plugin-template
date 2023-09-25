@@ -22,36 +22,38 @@
  */
 package fr.djaytan.mc.template.config;
 
-import java.util.Random;
-import org.springframework.context.ApplicationContext;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Library auto-registration.
- *
- * <p>Any class annotated with {@link Configuration} under {@link fr.djaytan.mc.template.config}
- * package will be automatically scanned by the plugin.
- */
 @Configuration
-class TemplateCoreConfig {
+class ResourceBundleConfig {
 
-  TemplateCoreConfig() {
+  private static final Locale DEFAULT_LOCAL = Locale.FRENCH;
+
+  private static final String RESOURCE_BUNDLE_BASE_SIMPLE_NAME = "messages";
+  private static final String COMMONS_RESOURCE_BUNDLE_BASE_NAME =
+      "fr.djaytan.mc.template.core.commons." + RESOURCE_BUNDLE_BASE_SIMPLE_NAME;
+  private static final String PERSON_RESOURCE_BUNDLE_BASE_NAME =
+      "fr.djaytan.mc.template.core.person." + RESOURCE_BUNDLE_BASE_SIMPLE_NAME;
+
+  ResourceBundleConfig() {
     // Static class but required to be instantiated by Spring
   }
 
   @Bean
-  static Random random() {
-    return new Random();
+  Locale defaultLocal() {
+    return DEFAULT_LOCAL;
   }
 
-  @Bean
-  static ClassLoader defaultClassLoader(ApplicationContext applicationContext) {
-    ClassLoader classLoader = applicationContext.getClassLoader();
-    if (classLoader == null) {
-      throw new IllegalStateException(
-          "Program was unexpectedly not able to found ClassLoader from ApplicationContext");
-    }
-    return classLoader;
+  @Bean("commons")
+  static ResourceBundle commonsResourceBundle(ClassLoader classLoader) {
+    return ResourceBundle.getBundle(COMMONS_RESOURCE_BUNDLE_BASE_NAME, DEFAULT_LOCAL, classLoader);
+  }
+
+  @Bean("person")
+  static ResourceBundle personResourceBundle(ClassLoader classLoader) {
+    return ResourceBundle.getBundle(PERSON_RESOURCE_BUNDLE_BASE_NAME, DEFAULT_LOCAL, classLoader);
   }
 }

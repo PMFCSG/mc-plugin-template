@@ -20,39 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module template.core {
-  // Spring Boot
-  requires transitive spring.core;
-  requires transitive spring.beans;
-  requires transitive spring.context;
-  requires transitive spring.boot;
-  requires transitive spring.boot.autoconfigure;
+package fr.djaytan.mc.template.config;
 
-  // Spring Data
-  requires spring.data.commons;
-  requires spring.data.jpa;
-  requires jakarta.persistence;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-  opens fr.djaytan.mc.template.core.person.model to
-      spring.core; // Required deep reflection for PersonEntity class
+@Configuration
+class MinecraftConfig {
 
-  // Commands
-  requires info.picocli;
-  requires picocli.spring.boot.starter;
+  MinecraftConfig() {
+    // Static class but required to be instantiated by Spring
+  }
 
-  // Minecraft - Adventure API
-  requires net.kyori.adventure;
-  requires net.kyori.examination.api;
-  requires net.kyori.adventure.text.minimessage;
-
-  // Commons
-  requires org.slf4j;
-  requires org.apache.commons.lang3;
-
-  exports fr.djaytan.mc.template to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.commons to
-      template.plugin;
-  exports fr.djaytan.mc.template.core.person.controller to
-      template.plugin;
+  @Bean
+  static MiniMessage miniMessage() {
+    return MiniMessage.miniMessage();
+  }
 }

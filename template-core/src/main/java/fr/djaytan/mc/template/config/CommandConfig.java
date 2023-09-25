@@ -31,12 +31,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import picocli.CommandLine.Command;
 
-public class CommandConfig {
+class CommandConfig {
 
   private static final Logger LOG = LoggerFactory.getLogger(CommandConfig.class);
 
+  CommandConfig() {
+    // Static class but required to be instantiated by Spring
+  }
+
   @Bean
-  Collection<MinecraftCommand> minecraftCommands(ApplicationContext applicationContext) {
+  static Collection<MinecraftCommand> minecraftCommands(ApplicationContext applicationContext) {
     Collection<Object> commands = applicationContext.getBeansWithAnnotation(Command.class).values();
 
     Class<?> baseClass = MinecraftCommand.class;

@@ -22,30 +22,53 @@
  */
 package fr.djaytan.mc.template.core.person.view;
 
-import java.util.UUID;
+import fr.djaytan.mc.template.core.commons.MessageDispatcher;
+import java.util.ResourceBundle;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 
+@org.springframework.stereotype.Component
 public final class PersonView {
 
-  private PersonView() {
-    // Static class
+  private final MessageDispatcher messageDispatcher;
+  private final ResourceBundle resourceBundle;
+  private final MiniMessage miniMessage;
+
+  @Autowired
+  PersonView(
+      @NonNull MessageDispatcher messageDispatcher,
+      @Qualifier("person") @NonNull ResourceBundle resourceBundle,
+      @NonNull MiniMessage miniMessage) {
+    this.messageDispatcher = messageDispatcher;
+    this.resourceBundle = resourceBundle;
+    this.miniMessage = miniMessage;
   }
 
-  public static @NonNull Component invalidUuidErrorMessage(@NonNull String strPersonUuid) {
-    // TODO: use of ResourceBundles
-    return Component.text(
-            String.format("Error: The specified UUID is not a valid one ('%s')", strPersonUuid))
-        .color(TextColor.color(0xFF5555));
+  public void sendInvalidUuidErrorMessage(@NonNull Audience audience, @NonNull String personUuid) {
+    TagResolver tagResolver = Placeholder.unparsed("person_uuid", personUuid);
+    Component messageContent =
+        miniMessage.deserialize(resourceBundle.getString("failure.invalid_uuid"), tagResolver);
+    messageDispatcher.sendFailureMessage(audience, messageContent);
   }
 
-  public static @NonNull Component noPersonFoundErrorMessage(@NonNull UUID personUuid) {
-    return Component.text(String.format("No person found for the provided UUID '%s'", personUuid))
-        .color(TextColor.color(0xFF5555));
+  public void sendNoPersonFoundErrorMessage(
+      @NonNull Audience audience, @NonNull String personUuid) {
+    TagResolver tagResolver = Placeholder.unparsed("person_uuid", personUuid);
+    Component messageContent =
+        miniMessage.deserialize(resourceBundle.getString("failure.no_person_found"), tagResolver);
+    messageDispatcher.sendFailureMessage(audience, messageContent);
   }
 
-  public static @NonNull Component whoisheMessage(@NonNull String whoishe) {
-    return Component.text(String.format("Who is he: %s", whoishe)).color(TextColor.color(0xFFFF55));
+  public void sendWhoisheMessage(@NonNull Audience audience, @NonNull String whoishe) {
+    TagResolver tagResolver = Placeholder.unparsed("whoishe", whoishe);
+    Component messageContent =
+        miniMessage.deserialize(resourceBundle.getString("info.whoishe"), tagResolver);
+    messageDispatcher.sendInfoMessage(audience, messageContent);
   }
 }

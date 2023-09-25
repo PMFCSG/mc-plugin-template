@@ -41,11 +41,16 @@ import org.springframework.stereotype.Controller;
 public final class PersonController {
 
   private final PersonService personService;
+  private final PersonView personView;
   private final Random random;
 
   @Autowired
-  PersonController(@NonNull PersonService personService, @NonNull Random random) {
+  PersonController(
+      @NonNull PersonService personService,
+      @NonNull PersonView personView,
+      @NonNull Random random) {
     this.personService = personService;
+    this.personView = personView;
     this.random = random;
   }
 
@@ -67,18 +72,19 @@ public final class PersonController {
     Optional<UUID> personUuid = Utils.parseUuid(strPersonUuid);
 
     if (personUuid.isEmpty()) {
-      audience.sendMessage(PersonView.invalidUuidErrorMessage(strPersonUuid));
+      personView.sendInvalidUuidErrorMessage(audience, strPersonUuid);
       return;
     }
 
     Optional<Person> person = personService.findPerson(personUuid.get());
 
     if (person.isEmpty()) {
-      audience.sendMessage(PersonView.noPersonFoundErrorMessage(personUuid.get()));
+      personView.sendNoPersonFoundErrorMessage(audience, personUuid.get().toString());
       return;
     }
 
     String whoishe = shortPresentation ? person.get().whoamiShortly() : person.get().whoami();
-    audience.sendMessage(PersonView.whoisheMessage(whoishe));
+
+    personView.sendWhoisheMessage(audience, whoishe);
   }
 }

@@ -24,4 +24,5 @@ module template.plugin {
   requires template.core;
   requires org.bukkit;
   requires org.slf4j;
+  requires net.kyori.adventure;
 }

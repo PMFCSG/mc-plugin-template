@@ -10,7 +10,7 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     # By default, H2 is disk-based in a pretty similar way than SQLite. However, for testing
-    # purposes (e.g. performances and portability of tests) we prefer to rely on an embedded and
+    # purposes (e.g. performance and portability of tests) we prefer to rely on an embedded and
     # in-memory mode. This is possible with H2, hence its use here but with some specificities:
     #
     # 1) "jdbc:h2:mem" is required for launching an embedded in-memory H2 database
