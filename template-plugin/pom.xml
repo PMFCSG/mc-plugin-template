@@ -111,12 +111,12 @@
                             </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                                    <resource>META-INF/README.md</resource>
                                     <file>${rootpom.basedir}/README.md</file>
+                                    <resource>META-INF/README.md</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                                    <resource>META-INF/LICENSE.md</resource>
                                     <file>${rootpom.basedir}/LICENSE.md</file>
+                                    <resource>META-INF/LICENSE.md</resource>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">

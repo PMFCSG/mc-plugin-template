@@ -33,6 +33,7 @@
 
     <name>Minecraft Spring Plugin Template</name>
     <description>Minecraft plugin template based on Spring framework</description>
+
     <modules>
         <module>template-core</module>
         <module>template-plugin</module>
@@ -95,7 +96,7 @@
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
-                <version>2.2.220</version>
+                <version>2.2.224</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -240,9 +241,6 @@
                 <groupId>com.spotify.fmt</groupId>
                 <artifactId>fmt-maven-plugin</artifactId>
                 <version>2.20</version>
-                <configuration>
-                    <failOnError>false</failOnError>
-                </configuration>
                 <executions>
                     <execution>
                         <id>format-code</id>
@@ -484,50 +482,50 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <fmt.skipFormat>false</fmt.skipFormat>
-                <fmt.skipCheck>true</fmt.skipCheck>
-                <license.skipFormat>false</license.skipFormat>
-                <license.skipCheck>true</license.skipCheck>
-                <sortpom.skipSort>false</sortpom.skipSort>
-                <sortpom.skipCheck>true</sortpom.skipCheck>
-                <skipTests>false</skipTests>
-                <dependencyCheck.skip>false</dependencyCheck.skip>
                 <attachSources.skip>false</attachSources.skip>
-                <javadoc.skip>false</javadoc.skip>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
                 <enforcer.skip>false</enforcer.skip>
+                <fmt.skipCheck>true</fmt.skipCheck>
+                <fmt.skipFormat>false</fmt.skipFormat>
+                <javadoc.skip>false</javadoc.skip>
+                <license.skipCheck>true</license.skipCheck>
+                <license.skipFormat>false</license.skipFormat>
+                <skipTests>false</skipTests>
+                <sortpom.skipCheck>true</sortpom.skipCheck>
+                <sortpom.skipSort>false</sortpom.skipSort>
             </properties>
         </profile>
         <profile>
             <id>continuous-integration</id>
             <properties>
-                <fmt.skipFormat>true</fmt.skipFormat>
-                <fmt.skipCheck>false</fmt.skipCheck>
-                <license.skipFormat>true</license.skipFormat>
-                <license.skipCheck>false</license.skipCheck>
-                <sortpom.skipSort>true</sortpom.skipSort>
-                <sortpom.skipCheck>false</sortpom.skipCheck>
-                <skipTests>false</skipTests>
-                <dependencyCheck.skip>false</dependencyCheck.skip>
                 <attachSources.skip>false</attachSources.skip>
-                <javadoc.skip>false</javadoc.skip>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
                 <enforcer.skip>false</enforcer.skip>
+                <fmt.skipCheck>false</fmt.skipCheck>
+                <fmt.skipFormat>true</fmt.skipFormat>
+                <javadoc.skip>false</javadoc.skip>
+                <license.skipCheck>false</license.skipCheck>
+                <license.skipFormat>true</license.skipFormat>
+                <skipTests>false</skipTests>
+                <sortpom.skipCheck>false</sortpom.skipCheck>
+                <sortpom.skipSort>true</sortpom.skipSort>
             </properties>
         </profile>
         <profile>
             <id>fast</id>
             <properties>
-                <fmt.skipFormat>true</fmt.skipFormat>
-                <fmt.skipCheck>true</fmt.skipCheck>
-                <license.skipFormat>true</license.skipFormat>
-                <license.skipCheck>true</license.skipCheck>
-                <sortpom.skipSort>true</sortpom.skipSort>
-                <sortpom.skipCheck>true</sortpom.skipCheck>
-                <skipTests>true</skipTests>
-                <dependencyCheck.skip>true</dependencyCheck.skip>
                 <attachSources.skip>true</attachSources.skip>
-                <javadoc.skip>true</javadoc.skip>
+                <dependencyCheck.skip>true</dependencyCheck.skip>
                 <enforcer.skip>true</enforcer.skip>
+                <fmt.skipCheck>true</fmt.skipCheck>
+                <fmt.skipFormat>true</fmt.skipFormat>
+                <javadoc.skip>true</javadoc.skip>
+                <license.skipCheck>true</license.skipCheck>
+                <license.skipFormat>true</license.skipFormat>
                 <maven.test.skip.exec>true</maven.test.skip.exec>
+                <skipTests>true</skipTests>
+                <sortpom.skipCheck>true</sortpom.skipCheck>
+                <sortpom.skipSort>true</sortpom.skipSort>
             </properties>
         </profile>
     </profiles>
