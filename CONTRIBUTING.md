@@ -14,16 +14,13 @@ enhancement or a code improvement.
 No matter of your capabilities or how important is your wish to contribute to this project, your
 help will be welcome and very appreciated!
 
-### :mega: Discussions / :question: Support
+### :mega: Discussions
 
 Discussions are where we have conversations.
 
 If you'd like to help troubleshooting a PR you're working on, have a great new idea, or want to
 share something amazing you've experimented with our product, join us in
 [discussions](https://github.com/Cosmageia/mc-spring-plugin-template/discussions).
-
-The same is possible if you have any question or struggle making something work.
-The community will try to find the best way to help you! :Sparkles:
 
 ### :lady_beetle: Issues
 
@@ -41,6 +38,14 @@ the issue to have a conversation about the problem you want to fix.
 A [pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
 is a way to suggest changes in our repository. When we merge those changes, they would be deployed
 in the next release by the maintainer. :earth_africa:
+
+### :question: Support
+
+Asking questions is a way for you to be unblocked, and by doing so, this could help other people too
+if they are interested in the answer! Thus, the best place for asking support is
+under [discussions](https://github.com/Cosmageia/mc-spring-plugin-template/discussions).
+
+Furthermore, rest assured that the community will try to find the best way to help you! :Sparkles:
 
 ## First Contribution
 
