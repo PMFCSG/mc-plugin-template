@@ -4,10 +4,14 @@
 		"config:base"
 	],
 	"prHourlyLimit": 4,
-	"schedule": ["before 5am on monday"],
+	"schedule": [
+		"before 5am on monday"
+	],
 	"packageRules": [
 		{
-			"matchPackagePatterns": ["maven"],
+			"matchPackagePatterns": [
+				"maven"
+			],
 			"groupName": "maven"
 		}
 	]
