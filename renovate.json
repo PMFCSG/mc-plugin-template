@@ -1,0 +1,14 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:base"
+	],
+	"prHourlyLimit": 4,
+	"schedule": ["before 5am on monday"],
+	"packageRules": [
+		{
+			"matchPackagePatterns": ["maven"],
+			"groupName": "maven"
+		}
+	]
+}
