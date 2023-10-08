@@ -48,7 +48,7 @@
 
         <!-- ==================== Sonar ==================== -->
         <!-- sonar.projectKey must be defined through CLI only -->
-        <sonar.organization>djaytan</sonar.organization>
+        <sonar.organization>cosmageia</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/**/target/site/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
@@ -426,6 +426,13 @@
                     <failBuildOnCVSS>4</failBuildOnCVSS>
                     <failOnError>true</failOnError>
                     <skipProvidedScope>true</skipProvidedScope>
+                    <excludes>
+						<!--
+							H2 shall not be used for production code.
+							But for this demo project this is acceptable
+						-->
+                        <exclude>com.h2database:h2</exclude>
+                    </excludes>
                     <skip>${dependencyCheck.skip}</skip>
                 </configuration>
                 <executions>
@@ -472,7 +479,7 @@
 
     <profiles>
         <profile>
-            <id>local-dev</id>
+            <id>localdev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -488,7 +495,6 @@
                 <attachSources.skip>false</attachSources.skip>
                 <javadoc.skip>false</javadoc.skip>
                 <enforcer.skip>false</enforcer.skip>
-                <docker.skip>true</docker.skip>
             </properties>
         </profile>
         <profile>
@@ -505,7 +511,6 @@
                 <attachSources.skip>false</attachSources.skip>
                 <javadoc.skip>false</javadoc.skip>
                 <enforcer.skip>false</enforcer.skip>
-                <docker.skip>true</docker.skip>
             </properties>
         </profile>
         <profile>
@@ -522,13 +527,7 @@
                 <attachSources.skip>true</attachSources.skip>
                 <javadoc.skip>true</javadoc.skip>
                 <enforcer.skip>true</enforcer.skip>
-                <docker.skip>true</docker.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>docker</id>
-            <properties>
-                <docker.skip>false</docker.skip>
+                <maven.test.skip.exec>true</maven.test.skip.exec>
             </properties>
         </profile>
     </profiles>
