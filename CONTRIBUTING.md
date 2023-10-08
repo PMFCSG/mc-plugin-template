@@ -45,7 +45,7 @@ Asking questions is a way for you to be unblocked, and by doing so, this could h
 if they are interested in the answer! Thus, the best place for asking support is
 under [discussions](https://github.com/Cosmageia/mc-spring-plugin-template/discussions).
 
-Furthermore, rest assured that the community will try to find the best way to help you! :Sparkles:
+Furthermore, rest assured that the community will try to find the best way to help you! ✨
 
 ## First Contribution
 
