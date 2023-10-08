@@ -61,7 +61,7 @@ development and testing purposes.
 
 Working on this project requires the following dependencies installed in your local environment:
 
-* JDK 17 ([Download Link](https://adoptium.net/en-GB/temurin/releases/?version=11))
+* JDK 17 ([Download Link](https://adoptium.net/en-GB/temurin/releases/?version=17))
 * Maven
   3.8+ ([Download Link](https://maven.apache.org/download.cgi) | [Install Guide](https://maven.apache.org/install.html))
 
@@ -72,7 +72,7 @@ We suppose you know how to install a Minecraft server.
 To build the project and run unit and integration tests, you can simply build the project by typing
 this command at the root project:
 
-    $ mvn clean install
+    $ mvn clean verify
 
 You will find the packaged JAR file of the PaperMC plugin at `template-plugin/target`.
 If you want to test it, copy it into your local PaperMC server by taking care that the server

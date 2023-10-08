@@ -152,7 +152,6 @@
                 <version>3.3.0</version>
                 <configuration>
                     <!-- General properties -->
-                    <verifyFail>warn</verifyFail>
                     <createBackupFile>false</createBackupFile>
 
                     <!-- Formatting properties -->
@@ -206,8 +205,7 @@
                                 <exclude>src/test/resources/**</exclude>
                                 <exclude>**/dir.empty</exclude>
                                 <exclude>.editorconfig</exclude>
-                                <exclude>jitpack.yml</exclude>
-                                <exclude>renovate.json5</exclude>
+                                <exclude>renovate.json</exclude>
                             </excludes>
                         </licenseSet>
                     </licenseSets>
@@ -451,7 +449,7 @@
         </plugins>
     </build>
 
-    <url>https://github.com/Djaytan/mc-spring-plugin-template</url>
+    <url>https://github.com/Cosmageia/mc-spring-boot-plugin-template</url>
     <inceptionYear>2023</inceptionYear>
 
     <licenses>
@@ -464,7 +462,7 @@
     <scm>
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <url>git@github.com:Djaytan/mc-spring-plugin-template.git</url>
+        <url>git@github.com:Cosmageia/mc-spring-boot-plugin-template.git</url>
         <tag>HEAD</tag>
     </scm>
 
