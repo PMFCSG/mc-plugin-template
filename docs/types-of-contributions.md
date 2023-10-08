@@ -2,7 +2,7 @@
 
 You can contribute to the project in several ways. This repo is a place to discuss and collaborate!
 
-### :mega: Discussions & :question: Support
+### :mega: Discussions / :question: Support
 
 Discussions are where we have conversations.
 
