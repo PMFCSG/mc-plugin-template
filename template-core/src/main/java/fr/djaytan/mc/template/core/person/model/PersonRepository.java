@@ -25,4 +25,4 @@ package fr.djaytan.mc.template.core.person.model;
 import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
-public interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}
+interface PersonRepository extends CrudRepository<PersonEntity, UUID> {}

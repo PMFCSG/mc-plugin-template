@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 
 @org.springframework.stereotype.Component
-public class MessageFormatter {
+class MessageFormatter {
 
   private static final String MESSAGE_PREFIX_TAG_NAME = "message_prefix";
   private static final String MESSAGE_CONTENT_TAG_NAME = "message_content";

@@ -42,6 +42,6 @@ public class PlayerJoinListener implements Listener {
 
   @EventHandler
   void onPlayerJoin(@NonNull PlayerJoinEvent event) {
-    personController.generatePerson(event.getPlayer());
+		personController.generatePerson(event.getPlayer());
   }
 }
