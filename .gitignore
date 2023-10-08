@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-#    Generic gitignores for Java projects    #
+#             Generic gitignores             #
 # (from https://github.com/github/gitignore) #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -53,6 +53,13 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+
+
+##### Helm #####
+
+# Chart dependencies
+**/charts/*.tgz
 
 
 

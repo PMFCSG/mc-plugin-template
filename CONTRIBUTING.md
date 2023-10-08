@@ -12,8 +12,8 @@ A contribution can be as simple as opening a discussion or reporting us an issue
 enhancement or a code improvement. More details can be found about the
 [types of contributions](docs/types-of-contributions.md) for this repo.
 
-No matter of your capabilities or how important is your wish to contribute on this project, your
-help will be the welcome and very appreciated!
+No matter of your capabilities or how important is your wish to contribute to this project, your
+help will be welcome and very appreciated!
 
 ## First Contribution
 
@@ -27,11 +27,11 @@ development and testing purposes.
 
 ### Prerequisites
 
-Working on this project requires the following dependencies installed on your local environment:
+Working on this project requires the following dependencies installed in your local environment:
 
-* JDK 11 ([Download Link](https://adoptium.net/en-GB/temurin/releases/?version=11))
+* JDK 17 ([Download Link](https://adoptium.net/en-GB/temurin/releases/?version=11))
 * Maven
-  3.6+ ([Download Link](https://maven.apache.org/download.cgi) | [Install Guide](https://maven.apache.org/install.html))
+  3.8+ ([Download Link](https://maven.apache.org/download.cgi) | [Install Guide](https://maven.apache.org/install.html))
 
 ### Installing
 
@@ -42,21 +42,21 @@ this command at the root project:
 
     $ mvn clean install
 
-You will find the packaged JAR file of the Bukkit plugin at `bukkit/bukkit-plugin/target`.
-If you want to test it, copy it into your local Spigot server by taking care that the server
+You will find the packaged JAR file of the PaperMC plugin at `template-plugin/target`.
+If you want to test it, copy it into your local PaperMC server by taking care that the server
 version is compatible with the plugin.
 
 ### Documentation & Help
 
-If you want to work on Bukkit related aspects, you will find the API JavaDoc
-[here](https://hub.spigotmc.org/javadocs/spigot/).
+If you want to work on PaperMC related aspects, you will find the API JavaDoc
+[here](https://jd.papermc.io/paper/1.20/).
 
-A [wiki](https://bukkit.fandom.com/wiki/Main_Page) exists as well to get familiar with Bukkit
-core concepts.
+A [wiki](https://docs.papermc.io/paper/dev) exists as well to get familiar with PaperMC core
+concepts.
 
 Anyway, if you have any question, don't hesitate to
-[ask us](https://github.com/Djaytan/mc-jobs-reborn-patch-place-break/discussions)! We are here
-to help you for getting started.
+[ask us](https://github.com/Cosmageia/mc-spring-plugin-template/discussions)!
+We are here to help you for getting started.
 
 ## Pull Requests
 
@@ -73,10 +73,8 @@ to help you for getting started.
 The only thing we ask when contributing to the code is to apply
 [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 
-To help respecting this, an automatic-formatter as been configured through Maven to be dispatched
-automatically when building the project and running tests. If you forgot to run Maven before
-committing and pushing your changes, your PR will be prevented from being merged by our CI until
-you solved the issue.
+To help respect this, an automatic formatter has been configured through Maven to be dispatched
+automatically when building the project and running tests.
 
 ### IntelliJ IDEA plugin
 
