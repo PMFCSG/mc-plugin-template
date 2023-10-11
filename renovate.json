@@ -3,7 +3,7 @@
 	"extends": [
 		"config:base"
 	],
-	"prHourlyLimit": 4,
+	"prHourlyLimit": 10,
 	"schedule": [
 		"before 5am on monday"
 	],
@@ -12,7 +12,10 @@
 			"matchPackagePatterns": [
 				"maven"
 			],
-			"groupName": "maven"
+			"excludePackagePatterns": [
+				"spring-boot"
+			],
+			"groupName": "Maven plugins"
 		}
 	]
 }
