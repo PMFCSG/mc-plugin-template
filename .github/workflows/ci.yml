@@ -26,7 +26,7 @@ jobs:
                     distribution: temurin
 
             -   name: Cache Maven packages
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ~/.m2
                     key: m2-${{ hashFiles('**/pom.xml') }}
@@ -36,7 +36,7 @@ jobs:
                 run: mvn verify -Pcontinuous-integration -B -C -U -ntp -fae -V -e
 
             -   name: Cache SonarCloud packages
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ~/.sonar/cache
                     key: sonar
