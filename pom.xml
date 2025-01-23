@@ -54,7 +54,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/**/target/site/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- ==================== Dependencies ==================== -->
-        <spring-boot.version>3.1.4</spring-boot.version>
+        <spring-boot.version>3.4.2</spring-boot.version>
         <adventure.version>4.14.0</adventure.version>
     </properties>
 
